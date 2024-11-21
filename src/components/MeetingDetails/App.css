@@ -1,0 +1,32 @@
+.timeline-container {
+    width: 80%;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  .participant {
+    margin-bottom: 20px;
+  }
+  
+  .timeline {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .log {
+    display: flex;
+    align-items: center;
+  }
+  
+  .log-start, .log-end {
+    font-size: 0.8rem;
+    margin: 0 10px;
+  }
+  
+  .log-bar {
+    width: 100px;
+    height: 10px;
+    background-color: #007bff;
+  }
+  

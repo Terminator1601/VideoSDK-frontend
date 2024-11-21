@@ -1,0 +1,131 @@
+/* Timeline.css */
+.timeline-container {
+    padding: 20px;
+    background-color: #1a1a1a; /* Dark background */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .timeline h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #e0e0e0; /* Light gray for the title */
+  }
+  
+  .timeline-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .participant-info {
+    flex: 1;
+    color: #e0e0e0; /* Light gray for participant names */
+    font-size: 1rem;
+  }
+  
+  .timeline-bar {
+    position: relative;
+    flex: 2;
+    height: 8px; /* Slightly smaller height for the bar */
+    background-color: #444; /* Darker gray for the timeline */
+    border-radius: 5px;
+    margin: 0 10px;
+  }
+  
+  .session {
+    position: absolute;
+    height: 100%;
+    background-color: #007bff; /* Blue for session bars */
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .session:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
+  .session-details {
+    font-weight: bold;
+    font-size: 0.8rem; /* Smaller font size for session numbers */
+  }
+  
+  .details {
+    flex: 1;
+    text-align: right;
+  }
+  
+  .details button {
+    background-color: #007bff; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .details button:hover {
+    background-color: #0056b3; /* Darker blue on button hover */
+  }
+  
+  /* Optional: Add a tooltip style for participant names */
+  .tooltip {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    display: none; /* Hidden by default */
+  }
+  
+  .session:hover .tooltip {
+    display: block; /* Show tooltip on hover */
+  }
+
+
+
+  /* Timeline.css */
+.timeline-container {
+    padding: 20px;
+    background-color: #1a1a1a; /* Dark background */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  .timeline h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: #e0e0e0; /* Light gray for the title */
+  }
+  
+  .timeline {
+    position: relative; /* Needed for absolute positioning of the sessions */
+  }
+  
+  .time-intervals {
+    display: flex;
+    justify-content: space-between; /* Spread time intervals evenly */
+    position: relative;
+    margin-bottom: 5px; /* Space between intervals and the timeline */
+  }
+  
+  .time-interval {
+    flex: 1;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #e0e0e0; /* Light gray for time intervals */
+  }
+  
+  .timeline-row {
+    display: flex;
+    /* align-items; */
+}
