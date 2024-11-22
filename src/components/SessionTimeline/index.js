@@ -262,6 +262,7 @@
 
 
 
+
 import "tailwindcss/tailwind.css"
 
 import React, { useEffect, useState } from "react";
@@ -305,17 +306,17 @@ const EventIcon = ({ type, offset, time, tooltip }) => {
   const getIcon = () => {
     switch (type) {
       case "mic":
-        return <Mic className="w-6 h-6" />;
+        return <Mic size={24} strokeWidth={1.5} />;
       case "camera":
-        return <Camera className="w-6 h-6" />;
+        return <Camera size={24} strokeWidth={1.5} />;
       case "error":
-        return <AlertCircle className="w-6 h-6 text-red-500" />;
+        return <AlertCircle size={24} strokeWidth={1.5} className="text-red-500" />;
       case "join":
-        return <LogIn className="w-6 h-6 text-green-500" />;
+        return <LogIn size={24} strokeWidth={1.5} className="text-green-500" />;
       case "leave":
-        return <LogOut className="w-6 h-6" />;
+        return <LogOut size={24} strokeWidth={1.5} />;
       case "disconnect":
-        return <WifiOff className="w-6 h-6 text-red-500" />;
+        return <WifiOff size={24} strokeWidth={1.5} className="text-red-500" />;
       default:
         return null;
     }
@@ -439,10 +440,10 @@ const ParticipantTimeline = ({ participant, meetingId, sessionStart, sessionEnd 
 
         <button
           onClick={handleViewDetails}
-          className="flex items-center text-gray-400 hover:text-white transition-colors duration-200 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
+          className="flex items-center text-white opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none"
         >
-          <span className="mr-2 text-sm">View Details</span>
-          <ArrowRight className="w-4 h-4" />
+          <span className="mr-2 text-sm hover:text-blue-400 transition-colors duration-200">View Details</span>
+          <ArrowRight size={16} strokeWidth={1.5} />
         </button>
       </div>
     </div>

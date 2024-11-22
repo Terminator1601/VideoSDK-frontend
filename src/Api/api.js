@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000'; // Ensure this matches your backend port
+const BASE_URL = 'http://localhost:5000'; // Ensure this matches your backend port
 
 export const fetchSessions = async (page = 1, limit = 10) => {
     try {
