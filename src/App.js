@@ -34,6 +34,7 @@ import { Routes, Route } from "react-router-dom";
 import SessionList from "./components/SessionList";
 import SessionTimeline from "./components/SessionTimeline";
 import ParticipantDetails from "./components/ParticipantDetails";
+import CreateMeeting from "./components/CreateMeeting";
 
 const App = () => {
   return (
@@ -45,6 +46,7 @@ const App = () => {
     >
       <Routes>
         <Route path="/" element={<SessionList />} />
+        <Route path="/create" element={<CreateMeeting/>}/>
         <Route path="/session/:meetingId" element={<SessionTimeline />} />
         <Route path="/session/:meetingId/participant/:participantId" element={<ParticipantDetails />} />
       </Routes>
