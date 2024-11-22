@@ -133,6 +133,19 @@ const handleApiError = (error) => {
     throw new Error(errorMessage);
 };
 
+
+// Add a participant to a specific session
+const addParticipantToSession = async (meetingId, participantData) => {
+    try {
+        const response = await api.post(`/sessions/${meetingId}/participants`, participantData);
+        return response.data;
+    } catch (error) {
+        console.error('Error adding participant to session:', error);
+        throw error;
+    }
+};
+
+
 // Create an API object with all methods
 const apiService = {
     fetchSessions,
@@ -140,6 +153,7 @@ const apiService = {
     createSession,
     updateSession,
     deleteSession,
+    addParticipantToSession,
     endSession,
     fetchActiveSessions,
     handleApiError,
@@ -149,6 +163,7 @@ const apiService = {
 export {
     fetchSessions,
     fetchSessionDetails,
+    addParticipantToSession,
     createSession,
     updateSession,
     deleteSession,
