@@ -75,67 +75,37 @@
 
 
 
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchSessions } from "../Api/api";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Button,
-  Pagination,
-  TextField,
-  CircularProgress,
-  Box,
-  Paper,
-  Typography,
-  createTheme,
-  ThemeProvider,
-} from "@mui/material";
-
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark", // Enable dark mode
-    background: {
-      default: "#121212", // Dark background
-      paper: "#1e1e1e",   // Dark paper background
-    },
-    text: {
-      primary: "#ffffff", // Light text
-      secondary: "#b0b0b0", // Light secondary text
-    },
-    primary: {
-      main: "#90caf9", // Light blue
-    },
-    secondary: {
-      main: "#ffeb3b", // Yellow for accent
-    },
-  },
-});
+import { Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 const SessionList = () => {
   const [sessions, setSessions] = useState([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState(""); // For filtering sessions
-  const [loading, setLoading] = useState(false); // Loading state
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
+  const itemsPerPage = 10;
 
   const loadSessions = async () => {
     try {
-      setLoading(true); // Start loading
-      const data = await fetchSessions(page, 10); // 10 sessions per page
+      setLoading(true);
+      const data = await fetchSessions(page, itemsPerPage);
       setSessions(data.sessions);
       setTotal(data.total);
-      setError(null); // Clear previous errors
+      setError(null);
     } catch (err) {
       setError(err.message || "Failed to load sessions.");
     } finally {
-      setLoading(false); // End loading
+      setLoading(false);
     }
   };
 
@@ -147,106 +117,147 @@ const SessionList = () => {
     session.meetingId.toLowerCase().includes(search.toLowerCase())
   );
 
+  const totalPages = Math.ceil(total / itemsPerPage);
+
   return (
-    <ThemeProvider theme={darkTheme}>
-      <Paper
-        sx={{
-          padding: 3,
-          margin: "20px auto",
-          maxWidth: 1000,
-          backgroundColor: "background.paper",
-        }}
-      >
-        <Typography variant="h4" sx={{ marginBottom: 2 }}>
-          Session List
-        </Typography>
+    <div className="min-h-screen bg-gray-900 p-6">
+      <div className="max-w-6xl mx-auto bg-gray-800 rounded-lg shadow-lg p-6">
+        <h1 className="text-2xl font-bold text-white mb-6">Session List</h1>
 
         {/* Search Bar */}
-        <TextField
-          label="Search by Meeting ID"
-          variant="outlined"
-          fullWidth
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ marginBottom: 3 }}
-          color="primary"
-        />
+        <div className="relative mb-6">
+          <input
+            type="text"
+            placeholder="Search by Meeting ID"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full bg-gray-700 text-white rounded-lg py-2 px-4 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
+        </div>
 
         {/* Error Message */}
         {error && (
-          <Typography color="error" sx={{ marginBottom: 2 }}>
+          <div className="bg-red-500 text-white p-4 rounded-lg mb-6">
             {error}
-          </Typography>
+          </div>
         )}
 
         {/* Loading Spinner */}
         {loading ? (
-          <Box display="flex" justifyContent="center" alignItems="center" minHeight="50vh">
-            <CircularProgress color="primary" />
-          </Box>
+          <div className="flex justify-center items-center min-h-[400px]">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          </div>
         ) : (
           <>
             {/* Table */}
-            <Table sx={{ minWidth: 650 }}>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ color: "text.primary" }}>Meeting ID</TableCell>
-                  <TableCell sx={{ color: "text.primary" }}>Start Time</TableCell>
-                  <TableCell sx={{ color: "text.primary" }}>End Time</TableCell>
-                  <TableCell sx={{ color: "text.primary" }}>Participants</TableCell>
-                  <TableCell sx={{ color: "text.primary" }}>Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredSessions.length > 0 ? (
-                  filteredSessions.map((session) => (
-                    <TableRow key={session.meetingId}>
-                      <TableCell sx={{ color: "text.primary" }}>{session.meetingId}</TableCell>
-                      <TableCell sx={{ color: "text.primary" }}>
-                        {new Date(session.start).toLocaleString()}
-                      </TableCell>
-                      <TableCell sx={{ color: "text.primary" }}>
-                        {session.end
-                          ? new Date(session.end).toLocaleString()
-                          : "Ongoing"}
-                      </TableCell>
-                      <TableCell sx={{ color: "text.primary" }}>
-                        {session.uniqueParticipantsCount}
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => navigate(`/session/${session.meetingId}`)} // Navigate to the session timeline
-                        >
-                          View Timeline
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5} align="center" sx={{ color: "text.secondary" }}>
-                      No sessions found.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+            <div className="overflow-x-auto">
+              <table className="w-full text-white">
+                <thead className="bg-gray-700">
+                  <tr>
+                    <th className="px-6 py-3 text-left">Meeting ID</th>
+                    <th className="px-6 py-3 text-left">Start Time</th>
+                    <th className="px-6 py-3 text-left">End Time</th>
+                    <th className="px-6 py-3 text-left">Participants</th>
+                    <th className="px-6 py-3 text-left">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-700">
+                  {filteredSessions.length > 0 ? (
+                    filteredSessions.map((session) => (
+                      <tr 
+                        key={session.meetingId}
+                        className="hover:bg-gray-700 transition-colors"
+                      >
+                        <td className="px-6 py-4">{session.meetingId}</td>
+                        <td className="px-6 py-4">
+                          {new Date(session.start).toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4">
+                          {session.end
+                            ? new Date(session.end).toLocaleString()
+                            : "Ongoing"}
+                        </td>
+                        <td className="px-6 py-4">
+                          {session.uniqueParticipantsCount}
+                        </td>
+                        <td className="px-6 py-4">
+                          <button
+                            onClick={() => navigate(`/session/${session.meetingId}`)}
+                            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+                          >
+                            View Timeline
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td 
+                        colSpan={5} 
+                        className="px-6 py-4 text-center text-gray-400"
+                      >
+                        No sessions found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
 
             {/* Pagination */}
-            <Box display="flex" justifyContent="center" marginTop={3}>
-              <Pagination
-                count={Math.ceil(total / 10)}
-                page={page}
-                onChange={(event, value) => setPage(value)}
-                color="primary"
-              />
-            </Box>
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center mt-6 space-x-2">
+                <button
+                  onClick={() => setPage(Math.max(1, page - 1))}
+                  disabled={page === 1}
+                  className="p-2 rounded-lg bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (page <= 3) {
+                      pageNum = i + 1;
+                    } else if (page >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = page - 2 + i;
+                    }
+
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setPage(pageNum)}
+                        className={`w-8 h-8 rounded-lg ${
+                          page === pageNum
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-700 text-white hover:bg-gray-600"
+                        } transition-colors`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <button
+                  onClick={() => setPage(Math.min(totalPages, page + 1))}
+                  disabled={page === totalPages}
+                  className="p-2 rounded-lg bg-gray-700 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            )}
           </>
         )}
-      </Paper>
-    </ThemeProvider>
+      </div>
+    </div>
   );
 };
 
