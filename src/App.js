@@ -32,6 +32,7 @@ import UpdateSession from "./components/UpdateSession";
 import DeleteSession from "./components/DeleteSession";
 import EndSession from "./components/EndSession";
 import ParticipantJoinForm from "./components/ParticipantJoinForm";
+import Room from "./components/Room/index";
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
         <Route path="/update" element={<UpdateSession />} />
         <Route path="/delete" element={<DeleteSession />} />
         <Route path="/end" element={<EndSession />} />
+        <Route path="/room/:meetingId" element={<Room />} />
         <Route path="/session/:meetingId" element={<SessionTimeline />} />
         <Route path="/add-participant" element={<ParticipantJoinForm />} />
         <Route

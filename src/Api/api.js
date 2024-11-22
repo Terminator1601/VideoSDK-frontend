@@ -146,11 +146,29 @@ const addParticipantToSession = async (meetingId, participantData) => {
 };
 
 
+// Save event details for a participant in a session
+const logEvent = async (meetingId, participantId, eventType, eventData) => {
+    try {
+        const response = await api.post(`/sessions/${meetingId}/participants/${participantId}/events`, {
+            eventType,
+            eventData,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error logging event:', error);
+        throw error;
+    }
+};
+
+
+
+
 // Create an API object with all methods
 const apiService = {
     fetchSessions,
     fetchSessionDetails,
     createSession,
+    logEvent,
     updateSession,
     deleteSession,
     addParticipantToSession,
@@ -165,6 +183,7 @@ export {
     fetchSessionDetails,
     addParticipantToSession,
     createSession,
+    logEvent,
     updateSession,
     deleteSession,
     endSession,
